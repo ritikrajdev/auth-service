@@ -15,7 +15,7 @@ module.exports = {
   async validateToken(req, res, next) {
     try {
       const {token} = req.body;
-      const validatedData = authService.validateToken(token);
+      const validatedData = await authService.validateToken(token);
       res.status(200).json(validatedData);
     } catch (error) {
       next(error);

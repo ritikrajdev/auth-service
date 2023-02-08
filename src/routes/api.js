@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {generateValidationMiddleware} = require('../middlewares/validation');
+const {handleErrors} = require('../middlewares/errorHandler');
 
 const userController = require('../controllers/user.controller.js');
 const userSchema = require('../schemas/user.schema');
@@ -23,5 +24,7 @@ router.post(
   generateValidationMiddleware(authSchema.validateToken),
   authController.validateToken
 );
+
+router.use(handleErrors);
 
 module.exports = router;
