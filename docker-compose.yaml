@@ -1,0 +1,26 @@
+services:
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=database_dev
+  
+  cache:
+    image: redis
+
+
+  app:
+    build: .
+    environment:
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - HOST=database
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+      - cache
+    volumes:
+      - ./:/app/
+

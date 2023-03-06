@@ -1,13 +1,17 @@
 const { createClient } = require('redis');
 
-const redisUrl = process.env.REDIS_URL ?? 'redis://localhost:6379';
+const redisHost = process.env.REDIS_HOST ?? 'localhost';
+const redisPort = process.env.REDIS_PORT ?? 6379;
 
-const redisClient = createClient(redisUrl);
+const redisClient = createClient({
+  url: `redis://${redisHost}:${redisPort}`
+});
 redisClient.on('error', (err) => {
   console.error(err);
 });
 
 async function getRedisClient() {
+  console.log(redisHost, redisPort);
   if (!redisClient.isReady) {
     console.log('connecting to redis');
     await redisClient.connect();
