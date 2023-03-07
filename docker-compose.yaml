@@ -9,6 +9,14 @@ services:
   cache:
     image: redis
 
+  migrations:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrations
+    environment:
+      - HOST=database
+    depends_on:
+      - database
 
   app:
     build: .
@@ -21,6 +29,7 @@ services:
     depends_on:
       - database
       - cache
+      - migrations
     volumes:
       - ./:/app/
 
